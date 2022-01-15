@@ -11,18 +11,30 @@ from blockchain.pychain import PyChain
 from blockchain.block import Block
 from blockchain.record import Record
 
+def display_pychain_validity(is_valid:bool):
+    """Displays a success or error message based on PyChain validity.
+
+    """
+    if is_valid:
+        st.success("PyChain validation successful.")
+    else:
+        st.error("The PyChain is invalid.")
+
+
 @st.cache(allow_output_mutation=True)
 def setup():
     print("Initializing Chain")
     return PyChain([Block("Genesis", 0)])
 
 
-st.markdown("# Decentralized Banking Powered by PyChain")
-st.markdown("## Store a Transaction Record in the PyChain")
+st.markdown("# Decentralized Banking")
+st.caption("Powered by PyChain")
+
 
 pychain = setup()
 
 # INPUT SECTION ===========================================
+st.markdown("## Store a Transaction Record on the PyChain")
 
 sender = st.text_input(
     label = 'Sender: ',
@@ -51,28 +63,30 @@ if st.button("Add Block"):
         prev_hash = prev_block_hash)
 
     pychain.add_block(new_block)
-    st.balloons()
-
-st.markdown("## The PyChain Ledger")
+    st.success("Transaction successfully added.")
 # =========================================================
 
 
-# INFORMATIONAL SECTION ===================================
 
+# LEDGER SECTION ===================================
+
+st.markdown("## PyChain Ledger")
 pychain_df = pd.DataFrame(pychain.chain).astype(str)
 st.write(pychain_df)
 
-if st.button("Validate Chain"):
-    st.write(pychain.is_valid())
+if st.button(label = "Validate Chain"):
+    display_pychain_validity(pychain.is_valid())
 #==========================================================
+
 
 
 # SIDEBAR SECTION =========================================
 
-difficulty = st.sidebar.slider("Block Difficulty", 1, 5, 2)
+st.sidebar.write("## Block Difficulty")
+difficulty = st.sidebar.slider("", 1, 5, 2)
 pychain.difficulty = difficulty
 
-st.sidebar.write("# Block Inspector")
+st.sidebar.write("## Block Inspector")
 selected_block = st.sidebar.selectbox(
     "Which block would you like to see?", pychain.chain
 )
