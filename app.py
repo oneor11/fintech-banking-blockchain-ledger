@@ -39,13 +39,13 @@ st.markdown("## Store a Transaction Record on the PyChain")
 sender = st.text_input(
     label = 'Sender: ',
     value = '',
-    max_chars = 25
+    max_chars = 40
 )
 
 receiver = st.text_input(
     label = 'Receiver: ',
     value = '',
-    max_chars = 25
+    max_chars = 40
 )
 
 amount = st.text_input(
