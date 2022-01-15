@@ -47,11 +47,13 @@ On the **Store a Transaction Record on the PyChain** section of the app:
 - Enter a numeric amount in the **Amount** text box.
 - Click the **Add Block** button.
 
-When the transaction has been successfully added to the PyChain, a success message will appear. The amount of time required to add to the blockchain is dependent upon the proof of work difficulty setting in the left bar.
+When the transaction has been successfully added to the PyChain, a success message will appear. The amount of time required to add to the blockchain is dependent upon the proof of work difficulty setting in the left bar.  Transactions will appear in the **PyChain Ledger** section of the app for further review.
 
 ### Validating the entire PyChain blockchain
 
-todo
+![screenshot of transaction entry form](images/pychain_ledger.png)
+
+Click the **Validate Chain** button to validate the PyChain blockchain.  Each block on the PyChain blockchain contains a SHA-256 hash of all of the *previous* block's encoded attributes.  The chain is validated if every block's "previous hash" matches the actual hash of the previous block all the way from the Genesis (first) block through the last block.
 
 ### Dynamically djusting the proof of work difficulty
 
