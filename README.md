@@ -51,13 +51,15 @@ When the transaction has been successfully added to the PyChain, a success messa
 
 ### Validating the entire PyChain blockchain
 
-![screenshot of transaction entry form](images/pychain_ledger.png)
+![screenshot of PyChain ledger section](images/pychain_ledger.png)
 
 Click the **Validate Chain** button to validate the PyChain blockchain.  Each block on the PyChain blockchain contains a SHA-256 hash of all of the *previous* block's encoded attributes.  The chain is validated if every block's "previous hash" matches the actual hash of the previous block all the way from the Genesis (first) block through the last block.
 
-### Dynamically djusting the proof of work difficulty
+### Dynamically adjusting the proof of work difficulty
 
-todo
+![screenshot of Block Difficulty slider](images/block_difficulty.png)
+
+The PyChain blockchain uses [proof of work](https://www.investopedia.com/terms/p/proof-work.asp) to secure it from malicious attacks.  In this example the miner must arrive at a hash for the current block that matches a pattern of *beginning zeroes*.  Block objects on the PyChain have a [nonce](https://www.investopedia.com/terms/n/nonce.asp) attribute that can be repeatedly set by miners to programmatically re-hash the block until the *beginning zeroes* requirement is met.  When the requirement is met, the block can be added to the chain. The number of beginning zeroes is set via the **Block Difficulty** slider on the left side of the application.  The newly selected difficulty will take effect the next time the **Add Block** button is clicked to add a transaction.
 
 ## Contributors
 
