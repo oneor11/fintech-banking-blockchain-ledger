@@ -2,7 +2,7 @@
 
 Example of a blockchain-based ledger system, complete with a user-friendly web interface. This ledger allows partner banks to conduct financial transactions (that is, to transfer money between senders and receivers) and to verify the integrity of the data in the ledger.  The example demonstrates chaining blocks on the chain via hash linking, proof of work, dynamic adjustments to proof of work difficulty, and blockchain validation.
 
-## Technologies
+## Technologies Used
 
 The application uses the following technologies:
 
@@ -10,7 +10,7 @@ The application uses the following technologies:
 - [pandas](https://pandas.pydata.org/pandas-docs/stable/index.html)
 - [streamlit](https://streamlit.io)
 
-## Installation Guide (if not using Google Colaboratory)
+## Installation Guide
 
 ```python
 
@@ -23,12 +23,12 @@ pip install streamlit
 
 There are four blockchain workflows in this demo:
 
-- Adding a transaction to the PyChain blockchain
-- Validating the entire PyChain blockchain
-- Dynamically adjusting the proof of work difficulty
-- Viewing a specific raw block on the PyChain
+1. Adding a transaction to the PyChain blockchain
+2. Validating the entire PyChain blockchain
+3. Dynamically adjusting the proof of work difficulty
+4. Viewing a specific raw block on the PyChain
 
-Blocks for transactions are constructed from user input facilitated through the Streamlit UI.  To launch the application open a terminal and run the following code in the Python virtual environment where Streamlit is installed:
+Blocks for transactions are constructed from user input facilitated through the Streamlit UI.  To launch the application open a terminal, navigate to the project directory, and run the following code in the Python virtual environment where Streamlit is installed:
 
 ```python
 
@@ -47,13 +47,43 @@ On the **Store a Transaction Record on the PyChain** section of the app:
 - Enter a numeric amount in the **Amount** text box.
 - Click the **Add Block** button.
 
-When the transaction has been successfully added to the PyChain, a success message will appear. The amount of time required to add to the blockchain is dependent upon the proof of work difficulty setting in the left bar.  Transactions will appear in the **PyChain Ledger** section of the app for further review.
+When the transaction has been successfully added to the PyChain, a success message will appear. The amount of time required to add to the blockchain is dependent upon the proof of work difficulty setting in the left bar.  Added transactions will appear in the **PyChain Ledger** section of the app for further review.
 
 ### Validating the entire PyChain blockchain
 
 ![screenshot of PyChain ledger section](images/pychain_ledger.png)
 
 Click the **Validate Chain** button to validate the PyChain blockchain.  Each block on the PyChain blockchain contains a SHA-256 hash of all of the *previous* block's encoded attributes.  The chain is validated if every block's "previous hash" matches the actual hash of the previous block all the way from the Genesis (first) block through the last block.
+
+Code snippet of blockchain validation method:
+
+```python
+    def is_valid(self):
+        """Determines if the entire blockchain is valid.
+        
+        A valid blockchain requires that the prev_hash attribute of
+        every Block on the blockchain matches the SHA-256 hash of the
+        previous Block's encoded attributes.
+
+        Args:
+            self: PyChain
+                this PyChain class.
+
+        Returns:
+            True if blockchain is valid, False if invalid.
+
+        """
+
+        block_hash = self.chain[0].hash_block()
+
+        for block in self.chain[1:]:
+            if block_hash != block.prev_hash:
+                return False
+
+            block_hash = block.hash_block()
+
+        return True
+```
 
 ### Dynamically adjusting the proof of work difficulty
 
@@ -108,7 +138,7 @@ Transactions can be viewed in the **PyChain Ledger** section of the app, but can
 
 ## Note on Demo
 
-This is intended to a be a demo of a custom-constructed blockchain and not a production-ready implementation.  Many improvements would be needed for such an endeavor including software engineering standards such as error handling and logging.  From a blockchain perspective, features would be needed that distribute the blockchain to nodes as well as facilitates communication between them.
+This is intended to be a demo of a custom-constructed blockchain to discuss key concepts and not a production-ready implementation.  Many improvements would be needed for such an endeavor including software engineering standards such as error handling and logging.  From a blockchain perspective, features would be needed that distribute the blockchain to nodes as well as facilitate communication between them.
 
 ## Contributors
 
