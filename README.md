@@ -59,7 +59,54 @@ Click the **Validate Chain** button to validate the PyChain blockchain.  Each bl
 
 ![screenshot of Block Difficulty slider](images/block_difficulty.png)
 
-The PyChain blockchain uses [proof of work](https://www.investopedia.com/terms/p/proof-work.asp) to secure it from malicious attacks.  In this example the miner must arrive at a hash for the current block that matches a pattern of *beginning zeroes*.  Block objects on the PyChain have a [nonce](https://www.investopedia.com/terms/n/nonce.asp) attribute that can be repeatedly set by miners to programmatically re-hash the block until the *beginning zeroes* requirement is met.  When the requirement is met, the block can be added to the chain. The number of beginning zeroes is set via the **Block Difficulty** slider on the left side of the application.  The newly selected difficulty will take effect the next time the **Add Block** button is clicked to add a transaction.
+The PyChain blockchain uses [proof of work](https://www.investopedia.com/terms/p/proof-work.asp) to secure it from malicious attacks.  In this example the miner must arrive at a hash for the current block that matches a pattern of *beginning zeroes*.  Block objects on the PyChain have a [nonce](https://www.investopedia.com/terms/n/nonce.asp) attribute that can be repeatedly set by miners to programmatically re-hash the block until the *beginning zeroes* requirement is met (See code example below).  When the requirement is met, the block can be added to the chain. The number of beginning zeroes is set via the **Block Difficulty** slider on the left side of the application.  The newly selected difficulty will take effect the next time the **Add Block** button is clicked to add a transaction.
+
+```python
+
+    def proof_of_work(self, block):
+        """Solves a computation puzzle required to add the Block.
+        
+        A miner must execute proof_of_work to solve a computational
+        puzzle requiring that the block's hash begin with a certain
+        amount of zeroes defined by the PyChain difficulty attribute.
+
+        The Block's hash can be recomputed multiple times without
+        modifying the data by manipulating the Block's nonce attribute.
+
+        Args:
+            self: PyChain
+                this PyChain class.
+
+            block: Block
+                the candidate block targeted for addition to the
+                blockchain.
+
+        Returns:
+            The candidate Block with a nonce attribute value that
+            solves the puzzle. 
+
+        """        
+
+        calculated_hash = block.hash_block()
+        num_of_zeros = "0" * self.difficulty
+
+        while not calculated_hash.startswith(num_of_zeros):
+            block.nonce += 1
+            calculated_hash = block.hash_block()
+
+        return block
+
+```
+
+### Viewing a specific raw block on the PyChain
+
+![screenshot of Block Inspector dropdown list](images/block_inspector.png)
+
+Transactions can be viewed in the **PyChain Ledger** section of the app, but can also be viewed in their *raw* form by using the **Block Inspector**.  This view shows the data as-is its native Python List.  To view the data, simply click the dropdown listbox and click on the desired transaction.
+
+## Note on Demo
+
+This is intended to a be a demo of a custom-constructed blockchain and not a production-ready implementation.  Many improvements would be needed for such an endeavor including software engineering standards such as error handling and logging.  From a blockchain perspective, features would be needed that distribute the blockchain to nodes as well as facilitates communication between them.
 
 ## Contributors
 
